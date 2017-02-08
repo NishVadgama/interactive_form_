@@ -40,7 +40,83 @@ $("#design").change(function() {
 		$( "#color option[value='tomato']").show();
 		$( "#color option[value='steelblue']").show();
 		$( "#color option[value='dimgrey']").show();
-
 	}
-
 });
+
+//4.  Some events are at the same time as others. If the user selects a workshop, don't allow selection of a workshop at the same date and 
+//time -- you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
+var jsFrameworks = $("input[name='js-frameworks'");
+var jsLibs = $("input[name='js-libs']");
+var express = $("input[name='express']");
+var node = $("input[name='node']");
+var buildTools = $("input[name='build-tools']");
+var npm = $("input[name='npm']");
+
+
+jsFrameworks.change( function () {
+    if($(this).prop("checked")){
+    	express.prop( "disabled", true );
+    	buildTools.prop( "disabled", true );
+    }else{
+    	express.prop( "disabled", false );
+    	buildTools.prop( "disabled", false );
+    } 
+});
+
+jsLibs.change( function () {
+    //If JS Libraries  is Selected
+    if($(this).prop("checked")){
+    	node.prop( "disabled", true );
+    	npm.prop( "disabled", true );
+    }else{
+    	node.prop( "disabled", false );
+    	npm.prop( "disabled", false );
+    }
+ }); 
+
+express.change( function () {
+    //If Express  is Selected
+    if($(this).prop("checked")){
+    	jsFrameworks.prop( "disabled", true );
+    	buildTools.prop( "disabled", true );
+    }else{
+    	jsFrameworks.prop( "disabled", false );
+    	buildTools.prop( "disabled", false );
+    }   
+});
+
+node.change( function () {
+    //If Node  is Selected
+    if($(this).prop("checked")){
+    	jsLibs.prop( "disabled", true );
+    	npm.prop( "disabled", true );
+    }else{
+    	jsLibs.prop( "disabled", false );
+    	npm.prop( "disabled", false );
+    }  
+});
+
+buildTools.change( function () {
+    //If Build Tools  is Selected
+    if($(this).prop("checked")){
+    	jsFrameworks.prop( "disabled", true );
+    	express.prop( "disabled", true );
+    }else{
+    	jsFrameworks.prop( "disabled", false );
+    	express.prop( "disabled", false );
+    }  
+});
+
+npm.change( function () {
+    //If NPM  is Selected
+    if($(this).prop("checked")){
+    	jsLibs.prop( "disabled", true );
+    	node.prop( "disabled", true );
+    }else{
+    	jsLibs.prop( "disabled", false );
+    	node.prop( "disabled", false );
+    } 
+});
+
+
+//  $(".activities").append('<div class = "Total price"><h2>Total:  </h2></div>');
