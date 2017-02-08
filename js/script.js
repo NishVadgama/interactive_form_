@@ -118,7 +118,7 @@ buildTools.change( function () {
 });
 
 npm.change( function () {
-    //If NPM  is Selected
+    //If NPM  is Selected 
     if($(this).prop("checked")){
     	jsLibs.prop( "disabled", true );
     	node.prop( "disabled", true );
@@ -131,9 +131,9 @@ npm.change( function () {
 // d) calculate final price based on users selection
 $(".activities").append('<div class ="totalPrice"><h2></h2></div>');
 $(".activities input:checkbox").click(function() {
-     // declare the amount value to sum up total cost
+    
     	var totalAmount = 0;
-      // if is not equal
+    
     	$(".activities input[name!='all']:checked").each(function() {
     		totalAmount += 100;
       });
@@ -144,7 +144,23 @@ $(".activities input:checkbox").click(function() {
     	$(".totalPrice").text("Total $" + totalAmount);
     });
 
+//5. Payment Option - show/hide payment options based on users selection
 
- 
+// add a class to bitcoin and paypal --> as both elements had no id's/classes
+$("#credit-card").next().addClass("paypal");
+$(".paypal").next().addClass("bitcoin");
 
+// create conditional statements that will show/hide payment options based on users selection
+$("#payment").change(function() {
+	if($("select#payment").val() === "credit card"){
+		$(".paypal, .bitcoin").hide();
+		$("#credit-card").show();
+	}else if($("select#payment").val() === "paypal" ){
+		$(".bitcoin, #credit-card").hide();
+		$(".paypal").show();		
+	}else if($("select#payment").val() === "bitcoin" ){
+		$(".paypal, #credit-card").hide();
+		$(".bitcoin").show();
+	}
+});
 
