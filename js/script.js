@@ -1,14 +1,21 @@
 "use strict";
 
-//1. When the page loads, give focus to the first text field
+// MY NOTES:
+// --variables are set up within each section to improve readability
+// --Section 3 needs to be refactored
+// --Section 4 needs to be refactored
+// --Section 4.b This section was refactored using other developers code --> My orginal code worked however was 25 lines compared to 6 
+// -- 
+
+//1. Give focus to the first text field
 $("#name").focus();
 
-//2.  A text field that will be revealed when the "Other" option is selected from the "Job Role" drop down menu.
-//a) Crete a text field
+//2. Reveal textfield if other option is selected from check box
+// a) create empty textfield with placeholder text --> hide textfield
  $("#title").parent().append('<input type="text" id="other-field" placeholder="Your job title">');
  $("#other-field").hide();
 
-//b) When 'other' is clicked, it will reveal Text Field
+// b) When 'other' is clicked, it will reveal the text field
 $("#title").change(function() {
 	if($("select#title").val() === "other"){
 		$("#other-field").show();
@@ -17,15 +24,14 @@ $("#title").change(function() {
 	}
 });
 
-//3.  T-Shirt Info” section of the form:
-// If the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
-
-// If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
-
+//3. create an empty selction value --> hide section
 $("#color").prepend('<option value="selectColor" selected>Select T-Shirt Color</option>');
+$("#colors-js-puns").hide()
 
+// a)If the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
 $("#design").change(function() {
-	if($("select#design").val() === "js puns"){		
+	if($("select#design").val() === "js puns"){	
+		$("#colors-js-puns").show();	
 		$( "#color option[value='tomato']").hide();
 		$( "#color option[value='steelblue']").hide();
 		$( "#color option[value='dimgrey']").hide();
@@ -33,7 +39,10 @@ $("#design").change(function() {
 		$( "#color option[value='cornflowerblue']").show();
 		$( "#color option[value='darkslategrey']").show();
 	}
+
+// b)If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
 	if($("select#design").val() === "heart js"){
+		$("#colors-js-puns").show();
 		$( "#color option[value='gold']").hide();
 		$( "#color option[value='cornflowerblue']").hide();
 		$( "#color option[value='darkslategrey']").hide();
@@ -43,23 +52,24 @@ $("#design").change(function() {
 	}
 });
 
-//4.  Some events are at the same time as others. If the user selects a workshop, don't allow selection of a workshop at the same date and 
-//time -- you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
-var jsFrameworks = $("input[name='js-frameworks'");
+//4.  Disable conflicting time slots and calulate the total amount based on users input
+// a) Setup variables
+var mainConference = $("input[name='all']");
+var jsFrameworks = $("input[name='js-frameworks']");
 var jsLibs = $("input[name='js-libs']");
 var express = $("input[name='express']");
 var node = $("input[name='node']");
 var buildTools = $("input[name='build-tools']");
 var npm = $("input[name='npm']");
 
-
+// b) create functions that will disable all other conflicting time's based on user's selection
 jsFrameworks.change( function () {
     if($(this).prop("checked")){
     	express.prop( "disabled", true );
     	buildTools.prop( "disabled", true );
     }else{
     	express.prop( "disabled", false );
-    	buildTools.prop( "disabled", false );
+    	buildTools.prop( "disabled", false );   	
     } 
 });
 
@@ -118,5 +128,23 @@ npm.change( function () {
     } 
 });
 
+// d) calculate final price based on users selection
+$(".activities").append('<div class ="totalPrice"><h2></h2></div>');
+$(".activities input:checkbox").click(function() {
+     // declare the amount value to sum up total cost
+    	var totalAmount = 0;
+      // if is not equal
+    	$(".activities input[name!='all']:checked").each(function() {
+    		totalAmount += 100;
+      });
+    	$(".activities input[name ='all']:checked").each(function() {
+    		totalAmount += 200;
+    	});
 
-//  $(".activities").append('<div class = "Total price"><h2>Total:  </h2></div>');
+    	$(".totalPrice").text("Total $" + totalAmount);
+    });
+
+
+ 
+
+
